@@ -20,3 +20,5 @@ Thumbs.db
 
 # VSCode settings
 .vscode/
+
+/src/generated/prisma
