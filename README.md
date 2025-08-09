@@ -20,7 +20,8 @@ Body:
 {
   "name": "Your Name",
   "email": "email@example.com",
-  "password": "password123"
+  "password": "password123",
+  "confirmPassword": "123456"
 }
 
 ## 🔑 3. User Login
