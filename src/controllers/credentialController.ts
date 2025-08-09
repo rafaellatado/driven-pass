@@ -37,3 +37,28 @@ export async function createCredential(
     return res.status(500).send('Internal Server Error');
   }
 }
+
+export async function getCredentials(req: Request, res: Response) {
+  try {
+    const userId = res.locals.userId;
+    if (!userId) return res.status(401).send('Unauthorized');
+
+    const { id } = req.params;
+
+    if (id) {
+      const credentialId = Number(id);
+      if (isNaN(credentialId)) return res.status(400).send('Invalid credential ID');
+
+      const credential = await credentialService.getCredentialById(credentialId, userId);
+      return res.status(200).send(credential);
+    }
+
+    const credentials = await credentialService.getAllCredentials(userId);
+    return res.status(200).send(credentials);
+  } catch (err: unknown) {
+    const error = err as CustomError;
+    if (error.type === 'not_found') return res.status(404).send(error.message);
+    console.error(err);
+    return res.status(500).send('Internal Server Error');
+  }
+}

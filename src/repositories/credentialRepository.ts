@@ -17,3 +17,15 @@ export async function findByTitleAndUserId(title: string, userId: number) {
 export async function createCredential(data: CreateCredentialData) {
   return prisma.credential.create({ data });
 }
+
+export async function findAllByUserId(userId: number) {
+  return prisma.credential.findMany({
+    where: { userId }
+  });
+}
+
+export async function findByIdAndUserId(id: number, userId: number) {
+  return prisma.credential.findFirst({
+    where: { id, userId }
+  });
+}

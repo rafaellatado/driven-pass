@@ -20,3 +20,21 @@ export async function createCredential(data: credentialRepository.CreateCredenti
     password: encryptedPassword,
   });
 }
+
+export async function getAllCredentials(userId: number) {
+  const credentials = await credentialRepository.findAllByUserId(userId);
+  return credentials.map(c => ({
+    ...c,
+    password: cryptr.decrypt(c.password)
+  }));
+}
+
+export async function getCredentialById(id: number, userId: number) {
+  const credential = await credentialRepository.findByIdAndUserId(id, userId);
+  if (!credential) throw { type: 'not_found', message: 'Credential not found' };
+
+  return {
+    ...credential,
+    password: cryptr.decrypt(credential.password)
+  };
+}
