@@ -4,6 +4,7 @@ import healthRouter from './routers/healthRouter';
 import authRouter from './routers/authRouter';
 import errorHandler from './middlewares/errorHandler';
 import credentialRouter from './routers/credentialRouter';
+import userRouter from './routers/userRouter';
 
 dotenv.config();
 
@@ -17,6 +18,7 @@ app.use(express.json());
 app.use(healthRouter);
 app.use(authRouter);
 app.use(credentialRouter);
+app.use(userRouter);
 
 // Error handler
 app.use(errorHandler);

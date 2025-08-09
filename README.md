@@ -58,6 +58,13 @@ PostgreSQL & PL/pgSQL
 GET /credentials
 Authorization: Bearer {TOKEN}
 
+## 📄 5.2. Get Credentials by ID
+
+PostgreSQL & PL/pgSQL
+
+GET /credentials/id
+Authorization: Bearer {TOKEN}
+
 ## ✏️ 6. Update a Credential
 
 PUT /credentials/{id}

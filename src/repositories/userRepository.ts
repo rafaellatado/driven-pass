@@ -13,3 +13,11 @@ export async function findUserByEmail(email: string) {
 export async function createUser(data: CreateUserData) {
   return prisma.user.create({ data });
 }
+
+export async function deleteCredentialsByUserId(userId: number): Promise<void> {
+  await prisma.credential.deleteMany({ where: { userId } });
+}
+
+export async function deleteUserById(userId: number): Promise<void> {
+  await prisma.user.delete({ where: { id: userId } });
+}

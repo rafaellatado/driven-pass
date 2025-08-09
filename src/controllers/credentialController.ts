@@ -62,3 +62,54 @@ export async function getCredentials(req: Request, res: Response) {
     return res.status(500).send('Internal Server Error');
   }
 }
+
+export async function updateCredential(
+  req: Request<{ id: string }, unknown, CreateCredentialBody>,
+  res: Response
+) {
+  try {
+    const id = Number(req.params.id);
+    if (isNaN(id) || id <= 0) return res.status(400).send('Invalid ID');
+
+    const userId = res.locals.userId;
+    if (!userId) return res.status(401).send('Unauthorized');
+
+    const { title, url, username, password } = req.body;
+
+    await credentialService.updateCredential(id, userId, {
+      title,
+      url,
+      username,
+      password
+    });
+
+    return res.sendStatus(200);
+  } catch (err: unknown) {
+    const error = err as CustomError;
+    if (error.type === 'not_found') return res.status(404).send(error.message);
+    console.error(err);
+    return res.status(500).send('Internal Server Error');
+  }
+}
+
+export async function deleteCredential(
+  req: Request<{ id: string }>,
+  res: Response
+) {
+  try {
+    const id = Number(req.params.id);
+    if (isNaN(id) || id <= 0) return res.status(400).send('Invalid ID');
+
+    const userId = res.locals.userId;
+    if (!userId) return res.status(401).send('Unauthorized');
+
+    await credentialService.deleteCredential(id, userId);
+
+    return res.sendStatus(204); // No Content
+  } catch (err: unknown) {
+    const error = err as CustomError;
+    if (error.type === 'not_found') return res.status(404).send(error.message);
+    console.error(err);
+    return res.status(500).send('Internal Server Error');
+  }
+}

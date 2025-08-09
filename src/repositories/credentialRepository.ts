@@ -29,3 +29,26 @@ export async function findByIdAndUserId(id: number, userId: number) {
     where: { id, userId }
   });
 }
+
+export async function updateCredential(
+  id: number,
+  userId: number,
+  data: Omit<CreateCredentialData, 'userId'>
+) {
+  return prisma.credential.updateMany({
+    where: { id, userId },
+    data
+  });
+}
+
+export async function deleteCredential(id: number, userId: number) {
+  return prisma.credential.deleteMany({
+    where: { id, userId }
+  });
+}
+
+export async function deleteAllByUserId(userId: number) {
+  return prisma.credential.deleteMany({
+    where: { userId }
+  });
+}

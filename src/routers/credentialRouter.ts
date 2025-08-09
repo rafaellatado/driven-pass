@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { createCredential, getCredentials } from '../controllers/credentialController';
+import { createCredential, getCredentials, updateCredential, deleteCredential } from '../controllers/credentialController';
 import { validateSchema } from '../middlewares/validateSchema';
 import { credentialSchema } from '../schemas/credentialSchema';
 import { authenticateToken } from '../middlewares/authMiddleware';
@@ -23,6 +23,19 @@ credentialRouter.get(
   '/credentials/:id',
   authenticateToken,
   getCredentials
+);
+
+credentialRouter.put(
+  '/credentials/:id',
+  authenticateToken,
+  validateSchema(credentialSchema),
+  updateCredential
+);
+
+credentialRouter.delete(
+  '/credentials/:id',
+  authenticateToken,
+  deleteCredential
 );
 
 export default credentialRouter;

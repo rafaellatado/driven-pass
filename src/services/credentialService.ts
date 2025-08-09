@@ -38,3 +38,30 @@ export async function getCredentialById(id: number, userId: number) {
     password: cryptr.decrypt(credential.password)
   };
 }
+
+export async function updateCredential(
+  id: number,
+  userId: number,
+  data: Omit<credentialRepository.CreateCredentialData, 'userId'>
+): Promise<void> {
+  const credential = await credentialRepository.findByIdAndUserId(id, userId);
+  if (!credential) throw { type: 'not_found', message: 'Credential not found' };
+
+  const encryptedPassword = cryptr.encrypt(data.password);
+
+  await credentialRepository.updateCredential(id, userId, {
+    ...data,
+    password: encryptedPassword
+  });
+}
+
+export async function deleteCredential(id: number, userId: number): Promise<void> {
+  const credential = await credentialRepository.findByIdAndUserId(id, userId);
+  if (!credential) throw { type: 'not_found', message: 'Credential not found' };
+
+  await credentialRepository.deleteCredential(id, userId);
+}
+
+export async function eraseUserData(userId: number): Promise<void> {
+  await credentialRepository.deleteAllByUserId(userId);
+}
