@@ -1,10 +1,8 @@
-import 'express';
+import 'express-serve-static-core';
 
-declare module 'express' {
-  interface Response {
-    locals: {
-      userId?: number;
-      [key: string]: any;
-    }
+declare module 'express-serve-static-core' {
+  interface Locals {
+    userId?: number;
+    [key: string]: any;
   }
 }
